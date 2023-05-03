@@ -1,0 +1,28 @@
+#!/bin/sh
+#
+# An example hook script to verify what is about to be committed.
+# Called by "git commit" with no arguments.  The hook should
+# exit with non-zero status after issuing an appropriate message if
+# it wants to stop the commit.
+#
+# To enable this hook, rename this file to "pre-commit".
+echo "[Pre-commit] Starting pre-commit checks..."
+
+# Automatically regenerate index.html from Assignment 2 Report - Lee Xuan Hua.ipynb (if changes detected)
+SUB='Assignment 2 Report - Lee Xuan Hua.ipynb'
+
+if [[ `git status --porcelain` == *"$SUB"* ]]; then
+    # Changes in Assignment 2 Report - Lee Xuan Hua.ipynb detected
+    jupyter nbconvert "Assignment 2 Report - Lee Xuan Hua.ipynb" --no-input --no-prompt --to html --output "index.html"
+    
+    # If jupyter nbconvert fails, exit with error code 1 (Note for bash, 0 is success/true, 1 is error/false)
+    if [[ $? ]]; then
+        # Ideally we should not be doing this, this is just for learning purposes
+        git add index.html
+        git commit -m "[pre-push] Updated index.html"
+        exit 0
+    else
+        echo >&2 "jupyter nbconvert failed, not pushing"
+        exit 1
+    fi
+fi
