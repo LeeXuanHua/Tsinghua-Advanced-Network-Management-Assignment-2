@@ -3,9 +3,9 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import datetime
 
-from typing import Tuple, List
+from typing import Tuple
 
-from .utils import read_esb, read_host, read_trace, trace_length
+from .utils import read_esb, trace_length
 
 
 # Analyse & Compare 2 ESB graphs
@@ -261,8 +261,8 @@ def compare_trace_for_failure(test_trace: pd.DataFrame,
       fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(30, 15))
 
       # Plot avg_time & add a vertical line at x = 0.5
-      ax1.plot(test_dates, test_trace_length_list, label=f'os_021 trace length (test)')
-      ax1.plot(train_dates, train_trace_length_list, label=f'os_021 trace length (train)', color='orange', alpha=0.5)
+      ax1.plot(test_dates, test_trace_length_list, label='os_021 trace length (test)')
+      ax1.plot(train_dates, train_trace_length_list, label='os_021 trace length (train)', color='orange', alpha=0.5)
       ax1.axvline(x=datetime.datetime.strptime(hh_mm_ss_str, '%H:%M:%S'), color='r', linestyle='--', label=hh_mm_ss_str)
 
       ax1.set_title("Trace Length", fontsize=15, fontweight='bold', pad=30, color='black', loc='center')
